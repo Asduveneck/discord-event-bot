@@ -1,0 +1,17 @@
+# Node
+node_modules
+npm-debug.log*
+
+# Env
+.env
+
+# Prisma
+**/prisma/dev.db
+**/prisma/dev.db-journal
+
+# Builds
+dist
+
+# Misc
+.DS_Store
+Thumbs.db

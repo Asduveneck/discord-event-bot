@@ -1,0 +1,31 @@
+services:
+  migrate:
+    build:
+      context: ./apps/bot
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/gathercord?schema=public"
+      SHADOW_DATABASE_URL: "postgresql://postgres:postgres@db_shadow:5432/postgres?schema=public"
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+      db_shadow:
+        condition: service_healthy
+    command: [ "npx", "prisma", "migrate", "deploy" ]
+    restart: "no"
+
+  bot:
+    build:
+      context: ./apps/bot
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/gathercord?schema=public"
+      SHADOW_DATABASE_URL: "postgresql://postgres:postgres@db_shadow:5432/postgres?schema=public"
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    # the Dockerfile's CMD runs `npm run start`

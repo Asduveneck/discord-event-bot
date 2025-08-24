@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "bot:dev": "npm run dev -w apps/bot",
+    "bot:build": "npm run build -w apps/bot",
+    "bot:prisma:generate": "npm run prisma:generate -w apps/bot",
+    "bot:prisma:dev": "npm run prisma:migrate:dev -w apps/bot",
+    "bot:prisma:deploy": "npm run prisma:migrate:deploy -w apps/bot",
+    "bot:prisma:reset": "npm run prisma:reset -w apps/bot",
+    "bot:lint": "npm run lint -w apps/bot",
+    "bot:typecheck": "npm run typecheck -w apps/bot"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^10.0.0",
+    "prisma": "6.14.0"
+  },
+  "dependencies": {
+    "@prisma/client": "6.14.0"
+  }
+}

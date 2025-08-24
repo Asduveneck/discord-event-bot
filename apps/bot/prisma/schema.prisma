@@ -1,0 +1,101 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model GuildSettings {
+  guildId              String  @id
+  name                 String?
+  tz                   String  @default("America/Los_Angeles")
+  suggestionsChannelId String?
+  approvedChannelId    String?
+  roleHostId           String?
+  defaultTemplate      String  @default("food")
+  defaultPlatform      String  @default("ics")
+  features             Json    @default("{}")
+}
+
+model Place {
+  id          String  @id @default(uuid())
+  name        String?
+  address     String?
+  lat         Float?
+  lng         Float?
+  provider    String?
+  providerRef String?
+  url         String?
+  proposals   Proposal[]
+}
+
+model Proposal {
+  id               String   @id @default(uuid())
+  guildId          String
+  channelId        String?
+  messageId        String?
+  creatorId        String
+  type             String
+  title            String?
+  link             String?
+  placeId          String?
+  minCap           Int?
+  maxCap           Int?
+  status           String   @default("open")
+  approvedThreadId String?
+  privateThreadId  String?
+  customFields     Json     @default("{}")
+  votingEndsAt     DateTime?
+
+  place      Place?  @relation(fields: [placeId], references: [id])
+  options    ProposalTimeOption[]
+  votes      ProposalVote[]
+  media      EventMedia[]
+  attendees  EventAttendeeSnapshot[]
+}
+
+model ProposalTimeOption {
+  id         String   @id @default(uuid())
+  proposalId String
+  startAt    DateTime
+  endAt      DateTime
+
+  proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  votes    ProposalVote[]
+}
+
+model ProposalVote {
+  proposalId   String
+  userId       String
+  timeOptionId String
+  votedAt      DateTime @default(now())
+
+  proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  option   ProposalTimeOption @relation(fields: [timeOptionId], references: [id])
+
+  @@id([proposalId, userId])
+  @@index([timeOptionId])
+}
+
+model EventAttendeeSnapshot {
+  proposalId String
+  userId     String
+  role       String?
+
+  proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  @@id([proposalId, userId])
+}
+
+model EventMedia {
+  id         String   @id @default(uuid())
+  proposalId String
+  uploaderId String
+  storageUrl String?
+  createdAt  DateTime @default(now())
+
+  proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+}
