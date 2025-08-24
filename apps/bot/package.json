@@ -1,0 +1,29 @@
+{
+  "name": "discord-irl-meetup-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc -p tsconfig.json",
+    "prisma:generate": "prisma generate --schema prisma/schema.prisma",
+    "migrate:dev": "prisma migrate dev --schema prisma/schema.prisma",
+    "migrate:deploy": "prisma migrate deploy --schema prisma/schema.prisma",
+    "register-commands": "tsx src/core/registerCommands.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "discord.js": "^14.16.3",
+    "zod": "^3.23.8",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.18.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
+}
