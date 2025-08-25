@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { client, commands, buttons } from './core/client.js';
-import { Env } from './core/env.js';
+import { client, commands, buttons } from './lib/discordClient';
+import { Env } from './lib/env';
 
 // register command modules
 import setup from './ui/commands/setup.js';
@@ -15,6 +15,6 @@ import vote from './ui/interactions/vote.js';
 buttons.set('vote', vote);
 
 // wire router
-import './core/router.js';
+import './ui/router';
 
 client.login(Env.DISCORD_TOKEN);

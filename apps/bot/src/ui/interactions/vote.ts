@@ -1,6 +1,6 @@
 import { ButtonInteraction } from 'discord.js';
 import { prisma } from '../../lib/db.js';
-import { ensurePromotion } from '../../domain/promotion.js';
+import { ensurePromotion } from '../../services/promotion';
 
 export const data = { id: 'vote' };
 

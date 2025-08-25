@@ -1,4 +1,4 @@
-import { client, commands, buttons } from './client.js';
+import { client, commands, buttons } from '../lib/discordClient';
 import type { Interaction } from 'discord.js';
 
 client.on('interactionCreate', async (interaction: Interaction) => {
