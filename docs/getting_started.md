@@ -37,6 +37,8 @@ Invite the bot to your test server with the OAuth URL.
 
 ## 4. Useful scripts
 
+npm scripts
+
 ```sh
 # Prisma
 npm run bot:prisma:dev -- --name <migration-name>   # create/apply new migration locally
@@ -49,6 +51,12 @@ npm run bot:dev
 npm run bot:build
 npm run bot:lint
 npm run bot:typecheck
+```
+
+Docker snippets
+
+```sh
+docker compose down -v                              # DANGER: wipes out all data
 ```
 
 ## 5. Production (Docker + Postgres)

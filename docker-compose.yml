@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   bot:
     build:
@@ -16,27 +15,35 @@ services:
     restart: unless-stopped
   db:
     image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: gathercord_dev
     ports:
       - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d gathercord_dev" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-  db_shadow:
-    image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: gathercord_dev_shadow
+      POSTGRES_DB: gathercord
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d gathercord" ]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  db_shadow:
+    image: postgres:16-alpine
     ports:
       - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gathercord_shadow
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d gathercord" ]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - db_shadow_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  db_data:
+  db_shadow_data:
