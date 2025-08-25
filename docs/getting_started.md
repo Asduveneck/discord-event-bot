@@ -20,10 +20,14 @@ cp ../../.env.example ../../.env
 # Start Postgres (db + shadow db for migrations)
 docker compose up -d db db_shadow
 
-npm i
-npx prisma migrate dev --schema prisma/schema.prisma
-npm run dev
+# Migrate & generate Prisma client
+npm run bot:prisma:dev -- --name init
+npm run bot:prisma:generate
+
+# run the bot
+npm run bot:dev
 ```
+
 Invite the bot to your test server with the OAuth URL.
 
 ## 3. Configure in your Server
@@ -31,7 +35,23 @@ Invite the bot to your test server with the OAuth URL.
 - Run `/setup` as an admin → choose **suggestions** & **approved** channels and timezone.
 - Post a test: `/suggest type:food link:<url> times:"Fri 7pm; Sat 1pm" min:4 max:8`.
 
-## 4. Production (Docker + Postgres)
+## 4. Useful scripts
+
+```sh
+# Prisma
+npm run bot:prisma:dev -- --name <migration-name>   # create/apply new migration locally
+npm run bot:prisma:deploy                           # apply committed migrations (CI/Prod)
+npm run bot:prisma:generate                         # regenerate client
+npm run bot:prisma:reset                            # DANGER: drops dev DB and reapplies
+
+# Dev & build
+npm run bot:dev
+npm run bot:build
+npm run bot:lint
+npm run bot:typecheck
+```
+
+## 5. Production (Docker + Postgres)
 
 From repo root:
 ```bash
@@ -39,7 +59,7 @@ docker compose up -d --build
 ```
 Set env vars: `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, `DATABASE_URL` (Postgres).
 
-## 5. Troubleshooting
+## 6. Troubleshooting
 
 - **Slash commands not showing**: ensure `applications.commands` scope when inviting; commands can take a few minutes globally.
 - **Private thread creation fails**: check channel allows private threads; bot has correct perms; *Server Members* intent enabled.

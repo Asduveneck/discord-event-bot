@@ -2,12 +2,14 @@
   "private": true,
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "dev": "npm run dev -w apps/bot",
-    "build": "npm run build -w apps/bot",
-    "prisma:generate": "npm run prisma:generate -w apps/bot",
-    "prisma:migrate": "npm run prisma:migrate -w apps/bot",
-    "lint": "eslint .",
-    "typecheck": "tsc -b"
+    "bot:dev": "npm run dev -w apps/bot",
+    "bot:build": "npm run build -w apps/bot",
+    "bot:prisma:generate": "npm run prisma:generate -w apps/bot",
+    "bot:prisma:dev": "npm run prisma:migrate:dev -w apps/bot",
+    "bot:prisma:deploy": "npm run prisma:migrate:deploy -w apps/bot",
+    "bot:prisma:reset": "npm run prisma:reset -w apps/bot",
+    "bot:lint": "npm run lint -w apps/bot",
+    "bot:typecheck": "npm run typecheck -w apps/bot"
   },
   "engines": { "node": ">=20" }
 }
