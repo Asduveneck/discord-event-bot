@@ -1,8 +1,17 @@
+# Node
 node_modules
-dist
 npm-debug.log*
+
+# Env
 .env
-apps/bot/prisma/dev.db
-apps/bot/prisma/dev.db-journal
+
+# Prisma
+**/prisma/dev.db
+**/prisma/dev.db-journal
+
+# Builds
+dist
+
+# Misc
 .DS_Store
 Thumbs.db
