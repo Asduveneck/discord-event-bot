@@ -1,6 +1,7 @@
 datasource db {
-  provider = env("DATABASE_URL") != "" ? "postgresql" : "sqlite"
-  url      = env("DATABASE_URL") != "" ? env("DATABASE_URL") : "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
