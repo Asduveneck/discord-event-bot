@@ -32,5 +32,5 @@ Built to be **extensible** via plugins (place resolvers, event publishers, histo
 
 ## Tech
 - Node 20 + TypeScript + discord.js v14
-- Prisma + SQLite (dev) / Postgres (prod)
+- Prisma + Postgres
 - (Optional later) Redis + BullMQ for scheduled jobs
