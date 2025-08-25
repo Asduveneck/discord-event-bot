@@ -64,6 +64,7 @@ model ProposalTimeOption {
   endAt      DateTime
 
   proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  votes    ProposalVote[]
 }
 
 model ProposalVote {
@@ -76,6 +77,7 @@ model ProposalVote {
   option   ProposalTimeOption @relation(fields: [timeOptionId], references: [id])
 
   @@id([proposalId, userId])
+  @@index([timeOptionId])
 }
 
 model EventAttendeeSnapshot {
