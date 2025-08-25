@@ -5,7 +5,6 @@
 - Node 20+ (use `nvm use`) or Docker
 - Discord Bot token
 
-
 ## Discord App
 
 - Enable **Server Members Intent** (to add users to private threads)
@@ -25,10 +24,17 @@ DISCORD_CLIENT_ID=...
 
 ```sh
 nvm use
-cd apps/bot
 npm i
-npx prisma migrate dev --schema prisma/schema.prisma
-npm run dev
+
+# Start Postgres (db + shadow db)
+docker compose up -d db db_shadow
+
+# Run migrations & generate client
+npm run bot:prisma:dev -- --name init
+npm run bot:prisma:generate
+
+# Start the bot
+npm run bot:dev
 ```
 
 ## Docker (prod‑ish)

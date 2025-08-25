@@ -12,12 +12,9 @@
 
 ```bash
 nvm use
-cd apps/bot
-cp ../../.env.example ../../.env
+cp .env.example .env
 # Fill DISCORD_TOKEN and DISCORD_CLIENT_ID in ../../.env
-# DATABASE_URL is already set to local Postgres in .env.example
 
-# Start Postgres (db + shadow db for migrations)
 docker compose up -d db db_shadow
 
 # Migrate & generate Prisma client
