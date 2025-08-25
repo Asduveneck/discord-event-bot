@@ -44,3 +44,38 @@
 - Config via slash commands; avoid env edits after boot.
 - Store UTC, display in guild TZ.
 
+## Future Refactor Notes
+
+- **Database extraction**
+  - Move `schema.prisma` and `migrations/` from `apps/bot/` into a shared `packages/db/`.
+  - Export a generated Prisma client from `packages/db/` for both `bot` and future `web` apps.
+  - Extract DB helpers (currently in `apps/bot/src/lib/db.ts`) into that package.
+
+- **Adapters**
+  - Flesh out `packages/adapters/event-publisher` with a stable `IPublisher` interface.
+  - Implement publishers for external platforms (Meetup, Luma, Partiful).
+  - Allow guilds to configure publishing destinations via slash commands.
+
+- **Link enrichment**
+  - Parse and normalize links provided in `/suggest`:
+    - OpenGraph metadata (title, preview).
+    - Place resolvers (Google Maps, Yelp).
+  - Store normalized venue data in `place` table for reuse and deduplication.
+
+- **Event types**
+  - Generalize beyond food meetups:
+    - Support categories like board game nights, study groups, fitness events.
+    - Allow custom tags for filtering in the (future) web UI.
+
+- **Web app**
+  - Minimal admin/history UI under `apps/web/`.
+  - Features: past events, photos, attendance snapshots, analytics.
+  - Reuse the same DB package.
+
+- **Multi-tenancy**
+  - Tables already include `guildId`. Future: host as multi-tenant with per-guild isolation and config.
+
+- **Plugin hooks**
+  - Photo/media ingestion.
+  - History export for guild admins.
+  - (Optional) calendar sync (Google Calendar, Outlook).
