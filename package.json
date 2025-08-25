@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "npm run dev -w apps/bot",
+    "build": "npm run build -w apps/bot",
+    "prisma:generate": "npm run prisma:generate -w apps/bot",
+    "prisma:migrate": "npm run prisma:migrate -w apps/bot",
+    "lint": "eslint .",
+    "typecheck": "tsc -b"
+  },
+  "engines": { "node": ">=20" }
+}
