@@ -1,19 +1,27 @@
-# Bot Dockerfile
-FROM node:20-alpine AS deps
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci || npm i
-
+# ---- Builder ----
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
 
+# Install deps
+COPY package*.json ./
+RUN npm ci
+
+# Copy source
+COPY . .
+
+# Generate prisma client & build TS
+RUN npx prisma generate && npm run build
+
+# ---- Runner ----
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+
+# Copy only what we need at runtime
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY --from=deps /app/node_modules ./node_modules
-COPY prisma ./prisma
-CMD ["node", "dist/index.js"]
+COPY --from=build /app/prisma ./prisma
+COPY package*.json ./
+
+# default start (Prod)
+CMD ["npm","run","start"]

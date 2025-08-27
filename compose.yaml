@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gathercord
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d gathercord" ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  db_shadow:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gathercord # ok if both create same name; we'll point SHADOW to 'postgres' to be safe
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    volumes:
+      - db_shadow_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  db_shadow_data:
