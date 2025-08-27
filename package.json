@@ -1,6 +1,9 @@
 {
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "bot:dev": "npm run dev -w apps/bot",
     "bot:build": "npm run build -w apps/bot",
@@ -11,5 +14,13 @@
     "bot:lint": "npm run lint -w apps/bot",
     "bot:typecheck": "npm run typecheck -w apps/bot"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "prisma": "6.14.0"
+  },
+  "dependencies": {
+    "@prisma/client": "6.14.0"
+  }
 }

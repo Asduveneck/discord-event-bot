@@ -1,22 +1,20 @@
 services:
   bot:
-    image: node:20-alpine
-    working_dir: /app
+    image: node:20-slim
+    working_dir: /workspace
     env_file: .env
     environment:
+      NODE_ENV: development
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/gathercord?schema=public"
       SHADOW_DATABASE_URL: "postgresql://postgres:postgres@db_shadow:5432/postgres?schema=public"
-      NODE_ENV: development
-      CHOKIDAR_USEPOLLING: "true" # reliable file watching in containers
+      CHOKIDAR_USEPOLLING: "true"
     depends_on:
-      db:
-        condition: service_healthy
-      db_shadow:
-        condition: service_healthy
+      db: { condition: service_healthy }
+      db_shadow: { condition: service_healthy }
     command: >
-      sh -c "npm ci && npx prisma generate && npx prisma migrate deploy && npm run dev"
+      sh -c " apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/* && npm ci && npx prisma generate --schema apps/bot/prisma/schema.prisma && npx prisma migrate deploy --schema apps/bot/prisma/schema.prisma && npm run -w apps/bot dev "
     volumes:
-      - ./apps/bot:/app
-      - /app/node_modules
+      - ./:/workspace
+      - /workspace/node_modules
     ports:
-      - "3000:3000" # drop if not needed
+      - "3000:3000"
