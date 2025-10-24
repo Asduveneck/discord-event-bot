@@ -19,9 +19,24 @@ Built to be **extensible** via plugins (place resolvers, event publishers, histo
    ```
    Or with Docker from repo root: `docker compose up --build`.
 
-4. In Discord (admin):  
-   `/setup` → pick **suggestions** and **approved** channels, timezone, defaults.  
+4. Commands auto-register on bot startup. In Discord (admin):
+   `/setup` → pick **suggestions** and **approved** channels, timezone, defaults.
    Try: `/suggest type:food link:<url> times:"Fri 7pm; Sat 1pm" min:4 max:8`.
+
+## Command Registration
+
+Commands are **automatically registered when the bot starts**. For development, you can also manually register:
+
+### Manual Registration
+```bash
+# Register globally (takes ~1 hour to propagate)
+npm run commands:register
+
+# Register to a specific guild (instant, for testing)
+npm run commands:register:guild YOUR_GUILD_ID
+```
+
+Guild-specific registration is useful for rapid iteration during development.
 
 ## MVP Commands
 - `/setup` – configure channels, tz, defaults

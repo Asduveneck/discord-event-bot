@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { client, commands, buttons } from './lib/discordClient';
+import { client, commands, buttons, registerSlashCommands } from './lib/discordClient';
 import { Env } from './lib/env';
 
 // register command modules
@@ -16,5 +16,11 @@ buttons.set('vote', vote);
 
 // wire router
 import './ui/router';
+
+// Register slash commands on bot ready
+client.once('ready', async () => {
+  const commandsData = [setup.data, suggest.data, status.data];
+  await registerSlashCommands(commandsData);
+});
 
 client.login(Env.DISCORD_TOKEN);
