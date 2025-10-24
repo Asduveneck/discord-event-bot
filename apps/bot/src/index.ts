@@ -3,15 +3,15 @@ import { client, commands, buttons, registerSlashCommands } from './lib/discordC
 import { Env } from './lib/env';
 
 // register command modules
-import setup from './ui/commands/setup.js';
-import suggest from './ui/commands/suggest.js';
-import status from './ui/commands/status.js';
+import setup from './ui/commands/setup';
+import suggest from './ui/commands/suggest';
+import status from './ui/commands/status';
 commands.set('setup', setup);
 commands.set('suggest', suggest);
 commands.set('status', status);
 
 // register button modules
-import vote from './ui/interactions/vote.js';
+import vote from './ui/interactions/vote';
 buttons.set('vote', vote);
 
 // wire router
